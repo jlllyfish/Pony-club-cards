@@ -1,0 +1,62 @@
+# ============================================
+# PONY CLUB - GITIGNORE
+# ============================================
+
+# Fichiers de configuration sensibles
+.env
+*.env
+.env.local
+.env.*.local
+
+# Logs
+pony_club.log
+*.log
+
+# Fichiers de sortie générés
+output/
+output/cartes/*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Fichiers temporaires Windows
+Thumbs.db
+desktop.ini
+
+# Fichiers de test
+test_*.py
+*_test.py
+test/
+tests/
+
+# Backup files
+*.bak
+*.backup
+*_old.*
+*_backup.*
+
+# Node modules (si jamais utilisé)
+node_modules/
+
+# Clés et certificats
+*.pem
+*.key
+*.cert

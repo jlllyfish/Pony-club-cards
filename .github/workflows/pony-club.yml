@@ -1,0 +1,38 @@
+name: Pony Club - Process Cards
+
+on:
+  schedule:
+    # Toutes les 3h entre 6h et 21h, heure UTC
+    - cron: "0 4,7,10,13,16,19 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run process
+        env:
+          GRIST_BASE_URL: ${{ secrets.GRIST_BASE_URL }}
+          GRIST_API_KEY: ${{ secrets.GRIST_API_KEY }}
+          GRIST_DOC_ID: ${{ secrets.GRIST_DOC_ID }}
+          GRIST_TABLE_ID: ${{ secrets.GRIST_TABLE_ID }}
+          ENABLE_GRIST_UPLOAD: ${{ secrets.ENABLE_GRIST_UPLOAD }}
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          IMAP_SERVER: ${{ secrets.IMAP_SERVER }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          TEMPLATE_PATH: template/test_publi.pdf
+          FONT_PATH: fonts/DIN-MediumAlternate.ttf
+          OUTPUT_DIR: output/cartes
+        run: python run_process.py

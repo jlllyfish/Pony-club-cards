@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>One Trick Pony Club</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="header-content">
+          <!-- Logo: remplace par ton image SVG/PNG dans static/icons/logo.svg -->
+          <img
+            src="{{ url_for('static', filename='icons/logo.svg') }}"
+            alt="One Trick Pony Club"
+            class="logo"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+          />
+          <span class="logo-emoji" style="display: none">🐴</span>
+
+          <div>
+            <h1>One Trick Pony Club</h1>
+            <p class="subtitle">Gestion des cartes & envoi mail</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Statistiques -->
+      <div class="dashboard">
+        <div class="stat-card">
+          <div class="stat-header">
+            <img
+              src="{{ url_for('static', filename='icons/total.svg') }}"
+              alt="Total"
+              class="stat-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="stat-icon-emoji" style="display: none">📊</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-number" id="stat-total">-</div>
+          <div class="stat-desc">Membres</div>
+        </div>
+
+        <div class="stat-card highlight">
+          <div class="stat-header">
+            <img
+              src="{{ url_for('static', filename='icons/vip.svg') }}"
+              alt="VIP"
+              class="stat-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="stat-icon-emoji" style="display: none">👑</span>
+            <span class="stat-label">VIP</span>
+          </div>
+          <div class="stat-number" id="stat-vip">-</div>
+          <div class="stat-desc">Membres</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <img
+              src="{{ url_for('static', filename='icons/card.svg') }}"
+              alt="Cartes"
+              class="stat-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="stat-icon-emoji" style="display: none">📄</span>
+            <span class="stat-label">À créer</span>
+          </div>
+          <div class="stat-number" id="stat-pending">-</div>
+          <div class="stat-desc">Cartes en attente</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <img
+              src="{{ url_for('static', filename='icons/email.svg') }}"
+              alt="Emails"
+              class="stat-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="stat-icon-emoji" style="display: none">📧</span>
+            <span class="stat-label">À envoyer</span>
+          </div>
+          <div class="stat-number" id="stat-emails">-</div>
+          <div class="stat-desc">Emails en attente</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <img
+              src="{{ url_for('static', filename='icons/check.svg') }}"
+              alt="Terminés"
+              class="stat-icon"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';"
+            />
+            <span class="stat-icon-emoji" style="display: none">✅</span>
+            <span class="stat-label">Terminés</span>
+          </div>
+          <div class="stat-number" id="stat-completed">-</div>
+          <div class="stat-desc">Traités</div>
+        </div>
+      </div>
+
+      <!-- Section Actions -->
+      <div class="action-section">
+        <h2 class="section-title">Actions</h2>
+        <div class="button-group">
+          <button class="btn btn-primary" id="process-btn" onclick="processCards()">
+              Lancer le traitement
+              <span class="spinner" id="spinner"></span>
+          </button>
+          <button class="btn btn-secondary" onclick="testGristConnection()">
+              Tester Grist
+          </button>
+          </button>
+        </div>
+        <div class="status-message" id="status-message"></div>
+        <div class="status-message" id="debug-message"></div>
+      </div>
+
+      <!-- Section Logs -->
+      <div class="logs-section">
+        <div class="logs-header">
+          <h2 class="section-title" style="margin: 0">Logs</h2>
+          <!-- Bouton actualiser -->
+          <button class="btn btn-secondary" onclick="loadLogs()">
+              Actualiser
+          </button>
+        </div>
+        <div class="logs-container" id="logs-container">
+          <div class="log-line info">En attente de logs...</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
