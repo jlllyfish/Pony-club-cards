@@ -1,5 +1,4 @@
 # app.py
-import imaplib
 import io
 import logging
 import os
@@ -392,6 +391,7 @@ def send_email(record, card_path):
         msg_complet["To"] = msg["To"]
         msg_complet["Subject"] = msg["Subject"]
         msg_complet["Reply-To"] = msg["Reply-To"]
+        msg_complet["Bcc"] = SMTP_USER
         msg_complet.attach(msg)
 
         with open(card_path, "rb") as f:
@@ -407,52 +407,9 @@ def send_email(record, card_path):
             server.login(SMTP_USER, SMTP_PASSWORD)
             server.send_message(msg_complet)
 
-        logger.info(f"✓ Email {'VIP' if is_vip else 'standard'} envoyé à {email}")
-
-        try:
-            import socket
-
-            socket.setdefaulttimeout(30)
-
-            imap = imaplib.IMAP4_SSL(IMAP_SERVER)
-            imap.login(SMTP_USER, SMTP_PASSWORD)
-
-            sent_folder_name = None
-            status, folders_raw = imap.list()
-
-            if status == "OK":
-                for folder in folders_raw:
-                    raw = folder.decode() if isinstance(folder, bytes) else str(folder)
-                    if "\\Sent" in raw:
-                        sent_folder_name = raw.split('"')[-2]
-                        break
-
-            if not sent_folder_name:
-                sent_folder_name = "Sent"
-                logger.debug("Utilisation du dossier Sent par défaut")
-
-            quoted_folder = f'"{sent_folder_name}"'
-
-            logger.debug(f"Sauvegarde dans {quoted_folder}...")
-
-            result = imap.append(
-                quoted_folder,
-                "\\Seen",
-                imaplib.Time2Internaldate(time.time()),
-                msg_complet.as_bytes(),
-            )
-
-            if result[0] == "OK":
-                logger.info("✅ Sauvegardé dans Envoyés")
-            else:
-                logger.warning(f"⚠️ Échec sauvegarde Envoyés: {result}")
-
-            imap.logout()
-
-        except socket.timeout:
-            logger.warning("⏱️ Timeout sauvegarde Envoyés (email quand même envoyé)")
-        except Exception as e:
-            logger.warning(f"Erreur IMAP (email quand même envoyé): {str(e)[:100]}")
+        logger.info(
+            f"✓ Email {'VIP' if is_vip else 'standard'} envoyé à {email} (BCC: {SMTP_USER})"
+        )
 
         time.sleep(3)
 
