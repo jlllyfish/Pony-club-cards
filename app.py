@@ -391,7 +391,7 @@ def send_email(record, card_path):
         msg_complet["To"] = msg["To"]
         msg_complet["Subject"] = msg["Subject"]
         msg_complet["Reply-To"] = msg["Reply-To"]
-        msg_complet["Bcc"] = SMTP_USER
+        msg_complet["Bcc"] = f"{SMTP_USER}, saliha.chekroun.ext@beta.gouv.fr"
         msg_complet.attach(msg)
 
         with open(card_path, "rb") as f:
