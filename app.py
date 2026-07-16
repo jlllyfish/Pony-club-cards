@@ -375,7 +375,7 @@ def send_email(record, card_path):
         else:
             corps_texte = EMAIL_STANDARD_TEXTE
             corps_html = EMAIL_STANDARD_HTML
-            subject = "🦄 Test One Trick Pony"
+            subject = "🦄 Vos accès à One Trick Pony"
 
         msg = MIMEMultipart("alternative")
         msg["From"] = f"One Trick Pony <{SMTP_USER}>"
